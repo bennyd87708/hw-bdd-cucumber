@@ -29,18 +29,33 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
-  pending "Fill in this step in movie_steps.rb"
+  ratings_split = rating_list.split(', ')
+  ratings_split.each do |rating|
+    if uncheck
+      uncheck(rating)
+    else
+      check(rating)
+    end
+  end
 end
 
 # Part 2, Step 3
 Then /^I should (not )?see the following movies: (.*)$/ do |no, movie_list|
   # Take a look at web_steps.rb Then /^(?:|I )should see "([^"]*)"$/
-  pending "Fill in this step in movie_steps.rb"
+  movies_split = movie_list.split(', ')
+  movies_split.each do |movie|
+    if no
+      expect(page).not_to have_content(movie)
+    else
+      expect(page).to have_content(movie)
+    end
+  end
 end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  pending "Fill in this step in movie_steps.rb"
+  rows = page.all('table#movies tr').count
+  expect(rows).to eq 11 #10 movies plus the header row
 end
 
 ### Utility Steps Just for this assignment.
